@@ -1,0 +1,58 @@
+<!doctype html>
+<html>
+    <!-- 翻訳ツールバーを表示させない -->
+    <html lang="ja">
+    <head>
+        <title>talking assistant</title>
+        <link rel="stylesheet" href="./style.css">
+    </head>
+    <body>
+        <div class="top">
+            <h2>Talking</h2>
+        </div>
+        <div class="middle">
+            <div class="org">
+                <form name='input_form'>
+                    <textarea class="origin" id="origin_text" type="text" placeholder="入力してください" name='input' ></textarea>
+                </form>
+            </div>
+            <div class="trans">
+                <div class="col-auto">
+                    <label for="language"></label>
+                </div>
+                <div class="col-auto">
+                    <select class="form-control" id="language">
+                        <option value="ja">日本語</option>
+                        <option value="en">英語</option>
+                        <option value="de">ドイツ語</option>
+                        <option value="zh-cn">中国語(簡体)</option>
+                        <option value="zh-tw">中国語(繁体)</option>
+                    </select>
+                </div>
+                <textarea class='trans-log-area' id="tlog" ></textarea>
+            </div>
+        </div>
+        <div class = "under">
+            <input type="button" value="変換" id="translate" />
+        </div>
+        <script type="text/javascript" src="./eel.js"></script>
+        <script type="text/javascript">
+            // 変換関数
+            async function trans_func(text, lang) {
+                // document.write('<p>JavaScriptのテスト</p>');
+                let val = await eel.talk_system(text, lang)();
+                document.getElementById('tlog').value = val + "\n";
+            }
+            let regist = document.getElementById('translate')
+            regist.addEventListener('click', () => {
+                if (input_form.input.value == "") {
+                    alert("何か入力してください");
+                    return false;
+                }else {
+                    trans_func(origin_text.value, language.value);
+                    return true;
+                }
+            })
+        </script>
+    </body>
+</html>
